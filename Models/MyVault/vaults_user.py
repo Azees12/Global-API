@@ -75,7 +75,6 @@ class User(db.Document):
                 return jsonify({"status": "True", "message":"Password matches"})
             except:
                 return jsonify({"error": "Password does not match", "status": "False"})
-        
         except:
              return jsonify({"error": "User not found", "status": "False"})
 
@@ -88,14 +87,12 @@ class User(db.Document):
             hashed_pass = bcrypt.hashpw(payload.get("password").encode('utf-8'), bcrypt.gensalt())
             print(hashed_pass)
             try:
-
                 user = User(
                     username=payload.get("username"),
                     password=hashed_pass
                 )
                 print("I am here")
                 user.save()
-
                 return jsonify({"status": "True", "message": "User Created"})
             except:
                 print("im in here")
