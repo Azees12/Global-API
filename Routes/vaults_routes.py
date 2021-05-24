@@ -1,13 +1,13 @@
 import os
 import jwt
-from Models.MyVault.Vault import Vault
-from Models.MyVault.vaults_user import User
+from Models.MyVault.Vault import *
+from Models.MyVault.vaults_user import User, secret_key
 from flask import  jsonify, request, Blueprint
 from functools import wraps
 
 MyVaults = Blueprint("MyVaults",__name__)
 
-secret_key = os.urandom(12).hex()
+
 
 def token_required(f):
     @wraps(f)
@@ -35,20 +35,16 @@ def token_required(f):
 @MyVaults.route('/signin', methods=['POST'])
 def signIn():
 
-    user = request.get_json()
-    username = user.get('username')
-    password = user.get('password')
+    payload = request.get_json()
 
-    return User().signIn(username, password)
+    return User().signIn(payload)
 
 @MyVaults.route('/signup', methods=['POST'])
 def signUp():
 
-    user = request.get_json()
-    name = user.get("username")
-    password = user.get("password")
+    payload = request.get_json()
 
-    return User().signUp(name, password)
+    return User().signUp(payload)
 
 @MyVaults.route('/addVault', methods = ['POST'])
 def addVault():
