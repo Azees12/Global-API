@@ -50,8 +50,8 @@ def signUp():
 def addVault():
      payload = request.get_json()
 
-     print(payload.get("username"))
-     return User().addVault(payload)
+     
+     return Vault().addVault(payload)
 
 @MyVaults.route('/addCred', methods = ['POST'])
 def addCred():
@@ -69,4 +69,11 @@ def remCred():
 def getVault():
      payload = request.get_json()
 
-     return User().getVault(payload)
+     return Vault().getVault(payload)
+
+
+@MyVaults.route('/getVaultsNames', methods = ['POST'])
+def getVaultNames():
+     payload = request.get_json()
+
+     return Vault().getVaultNames(payload)

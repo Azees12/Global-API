@@ -47,13 +47,12 @@ class User(db.Document):
         try:
             check_user = User.objects(username = payload.get("username")).get()
             try:
-                bcrypt.checkpw(payload.get("password").encode('utf-8'), check_user.password.encode('utf-8'))
+                bcrypt.checkpw(payload.get("password").encode('utf-8') == check_user.password.encode('utf-8'))
                 print("hello")
                 return jsonify({"status": "True", 
                                     
                                         "username": check_user.username,
                                         "user_id": check_user.user_id,
-                                        "vaults": check_user.vault,
                                         "token": self.user_token(check_user.username)}
                                      )
             except:
@@ -81,7 +80,6 @@ class User(db.Document):
 
 
 
-
     def signUp(self, payload):
 
             hashed_pass = bcrypt.hashpw(payload.get("password").encode('utf-8'), bcrypt.gensalt())
@@ -96,31 +94,7 @@ class User(db.Document):
                 return jsonify({"status": "True", "message": "User Created"})
             except:
                 print("im in here")
-                return jsonify({"error": "Unexpected error please try again", "status": "False"})
+                return jsonify({"error": "Username already taken", "status": "False"})
 
-    def addVault(self,payload):
-        try: 
-            user = User.objects(user_id = payload.get("user_id")).get()
-            print(user.username)
-            try:
-                new_vault = Vault(
-                name = payload.get("name"),
-                )
-                new_vault.save()
-                user.vault.append(new_vault)
-                user.save()
 
-                return jsonify({"status": "True", "message": "Vault "+ new_vault.name + " Created"})
-            except:
-                return jsonify({"error": "Could not be created", "status": "False"})
-        except: 
-            return jsonify({"error": "User not be found", "status": "False"})
-
-    def getVault(self, payload):
-        try:
-            user = User.objects(user_id = payload.get("user_id")).get()
-
-            print(user.username, user.vault[0].name)
-            return jsonify({"status": "True", "Vault": user.vault})
-        except:
-            return jsonify({"error": "User not be found", "status": "False"})
+  
