@@ -123,7 +123,7 @@ class Vault(db.Document):
                 user = payload.get("user_id")
                 )
                 print(new_vault.name)
-                Vault.objects().insert(new_vault)
+                new_vault.save()
 
                 return jsonify({"status": "True", "message": "Vault "+ new_vault.name + " Created"})
             except:

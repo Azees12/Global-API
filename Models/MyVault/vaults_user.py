@@ -46,16 +46,16 @@ class User(db.Document):
     def signIn(self, payload):
         try:
             check_user = User.objects(username = payload.get("username")).get()
-            try:
-                bcrypt.checkpw(payload.get("password").encode('utf-8') == check_user.password.encode('utf-8'))
-                print("hello")
-                return jsonify({"status": "True", 
+            
+            if bcrypt.checkpw(payload.get("password").encode('utf-8') ,check_user.password.encode('utf-8')):
+                    print("hello")
+                    return jsonify({"status": "True", 
                                     
                                         "username": check_user.username,
                                         "user_id": check_user.user_id,
                                         "token": self.user_token(check_user.username)}
                                      )
-            except:
+            else:
                 return jsonify({"error": "Invaild username or password", "status": "False"})
         
         except:

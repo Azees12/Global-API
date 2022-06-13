@@ -7,11 +7,13 @@ from flask_mongoengine import MongoEngine
 from flask_mongoengine.sessions import MongoEngineSessionInterface
 from config import Config
 from Routes.vaults_routes import MyVaults
+from Routes.ReactGraph_routes import PythonGraph
 from flask_debugtoolbar import DebugToolbarExtension
 
 
 app = Flask(__name__)
 app.register_blueprint(MyVaults, url_prefix="/MyVaults")
+app.register_blueprint(PythonGraph, url_prefix="/PythonGraph")
 app.config['MONGODB_SETTINGS'] = {
     "db": "MyVaults",
 }

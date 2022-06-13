@@ -1,4 +1,3 @@
 # Global-API
 
-
-Global api for all projects
+Global APO for all projects
