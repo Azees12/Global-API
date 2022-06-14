@@ -6,11 +6,6 @@ from matplotlib.font_manager import json_load
 from openpyxl import load_workbook
 import datetime
 
-
-def datetimeconvert(o):
-    if isinstance(o, datetime.datetime):
-        return o.__str__()
-
 def getFood_Sales():
     try:
         print("test")
