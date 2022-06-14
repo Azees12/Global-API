@@ -6,6 +6,7 @@ from functools import wraps
 
 PythonGraph = Blueprint("PythonGraph",__name__)
 
-@PythonGraph.route('/food_sales', methods=['POST'])
+@PythonGraph.route('/food_sales', methods=['GET'])
 def getsales():
+    payload = request.get_json()
     return getFood_Sales()

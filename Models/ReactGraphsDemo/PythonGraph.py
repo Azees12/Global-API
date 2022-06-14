@@ -1,10 +1,8 @@
-import os
-from pickle import TRUE
+import sys
 from textwrap import indent
-import jwt
 from functools import wraps
-import json
 from flask import jsonify
+from matplotlib.font_manager import json_load
 from openpyxl import load_workbook
 import datetime
 
@@ -15,10 +13,14 @@ def datetimeconvert(o):
 
 def getFood_Sales():
     try:
-        book = load_workbook('Excels/Food.xlsx',data_only=True)
+        print("test")
+        book = load_workbook('C:/Users/Azees Fetuga/Desktop/Projects/Global API/Models/ReactGraphsDemo/Excels/Food.xlsx',data_only=True)
+        print("test2")
         ws = book.active
-        for row in ws.iter_rows(min_row=1, min_col=1,values_only = TRUE):
-            
+        print("test3")
+        sales = {}
+        count = 1
+        for row in ws.iter_rows(min_row=1, min_col=1,values_only = True):  
             food_sales = {
                 "date": row[0],
                 "region": row[1],
@@ -29,9 +31,10 @@ def getFood_Sales():
                 "unit_price": row[6],
                 "total_price": row[7]
             }
-        sales = json.dumps(food_sales, indent=3, default=datetimeconvert)
+            sales[count] = food_sales
+            count +=1 
         return jsonify ({"status": True, "Data": sales})
     except:
+        print(sys.exc_info()[0])
         return jsonify({"status": False, "error": "data could not be retrieved"})
 
- 
