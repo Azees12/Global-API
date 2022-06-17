@@ -1,10 +1,7 @@
 import sys
-from textwrap import indent
-from functools import wraps
 from flask import jsonify
-from matplotlib.font_manager import json_load
 from openpyxl import load_workbook
-import datetime
+
 
 def getFood_Sales():
     try:
@@ -13,9 +10,9 @@ def getFood_Sales():
         print("test2")
         ws = book.active
         print("test3")
-        sales = {}
-        count = 1
-        for row in ws.iter_rows(min_row=1, min_col=1,values_only = True):  
+        sales = []
+        print("test4")
+        for row in ws.iter_rows(min_row=2, min_col=1,values_only = True):  
             food_sales = {
                 "date": row[0],
                 "region": row[1],
@@ -26,8 +23,7 @@ def getFood_Sales():
                 "unit_price": row[6],
                 "total_price": row[7]
             }
-            sales[count] = food_sales
-            count +=1 
+            sales.append(food_sales)
         return jsonify ({"status": True, "Data": sales})
     except:
         print(sys.exc_info()[0])
